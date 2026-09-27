@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title> Universal PWA - PC App.com </title>
+
+        <!---- change any thinge --->
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --bg: #0f172a;
+            --bg-light: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.8);
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.1);
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ===== APP FRAME (Full Screen) ===== */
+        .app-frame {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: linear-gradient(180deg, #1a1f3a 0%, var(--bg) 100%);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 2px;
+        }
+
+        /* User Profile Section */
+        .user-profile {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .user-info h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .user-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .user-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #4ade80;
+            margin-top: 4px;
+        }
+
+        .user-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Nav Sections */
+        .nav-section {
+            padding: 16px 12px;
+        }
+
+        .nav-section-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            padding: 8px 12px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 2px;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            bottom: 8px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 0 3px 3px 0;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+            color: var(--text-muted);
+            transition: color 0.25s;
+        }
+
+        .nav-item:hover i,
+        .nav-item.active i {
+            color: var(--primary);
+        }
+
+        .nav-item span {
+            font-size: 13px;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .nav-shortcut {
+            font-size: 10px;
+            color: var(--text-muted);
+            background: rgba(148, 163, 184, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .nav-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .progress-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(148, 163, 184, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 75%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* ===== MAIN AREA ===== */
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Title Bar */
+        .title-bar {
+            height: 56px;
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            -webkit-app-region: drag;
+        }
+
+        .title-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .breadcrumb span:last-child {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .title-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            -webkit-app-region: no-drag;
+        }
+
+        .tb-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-size: 13px;
+        }
+
+        .tb-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .content-area::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 4px;
+        }
+
+        .content-area::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.3);
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .welcome-text h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #e2e8f0, #c7d2fe);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-text p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: #4ade80;
+            font-weight: 500;
+        }
+
+        /* Quick Actions Grid */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .quick-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quick-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: linear-gradient(180deg, rgba(99, 102, 241, 0.1), transparent);
+            transition: height 0.3s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .quick-card:hover::after {
+            height: 60px;
+        }
+
+        .quick-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 14px;
+        }
+
+        .quick-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .quick-card p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Data Table */
+        .table-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .table-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(148, 163, 184, 0.1);
+            border-radius: 8px;
+            padding: 8px 14px;
+        }
+
+        .table-search input {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            width: 200px;
+        }
+
+        .table-search input::placeholder {
+            color: var(--text-muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 14px 24px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 14px 24px;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr {
+            transition: background 0.2s;
+        }
+
+        tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-pill.active {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+        }
+
+        .status-pill.pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+        }
+
+        .status-dot-sm {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        /* Keyboard Shortcuts Hint */
+        .kbd-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+        }
+
+        .kbd-hint.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .kbd-hint kbd {
+            background: rgba(148, 163, 184, 0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-frame">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="user-avatar">U</div>
+                <div class="user-info">
+                    <h3>Universal User</h3>
+                    <p>user@example.com</p>
+                    <div class="user-status">
+                        <span class="user-status-dot"></span>
+                        Online
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">मुख्य</div>
+                <div class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>डॅशबोर्ड</span>
+                    <span class="nav-shortcut">⌘1</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>अ‍ॅनालिटिक्स</span>
+                    <span class="nav-shortcut">⌘2</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-folder"></i>
+                    <span>प्रोजेक्ट्स</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>कॅलेंडर</span>
+                    <span class="nav-shortcut">⌘3</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>मेसेजेस</span>
+                    <span class="nav-badge">12</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">टूल्स</div>
+                <div class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>सेटिंग्ज</span>
+                    <span class="nav-shortcut">⌘,</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-moon"></i>
+                    <span>डार्क मोड</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>मदत</span>
+                    <span class="nav-shortcut">⌘?</span>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>स्टोरेज वापर</span>
+                    <span>75%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <div class="main-area">
+            <!-- Title Bar -->
+            <div class="title-bar">
+                <div class="title-bar-left">
+                    <div class="breadcrumb">
+                        <span>Universal PWA</span>
+                        <i class="fas fa-chevron-right" style="font-size: 10px; color: var(--text-muted);"></i>
+                        <span>डॅशबोर्ड</span>
+                    </div>
+                </div>
+                <div class="title-bar-actions">
+                    <button class="tb-btn" title="Search (⌘K)">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="tb-btn" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="tb-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <div class="welcome-text">
+                        <h1>नमस्कार! 👋</h1>
+                        <p>PC App मोडमध्ये तुमचे स्वागत आहे. Full-screen अनुभवासाठी तयार.</p>
+                        <div class="welcome-badge" style="margin-top: 10px;">
+                            <i class="fas fa-check-circle"></i>
+                            ऑफलाइन मोड सक्रिय
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <div class="quick-card">
+                        <div class="quick-card-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">📄</div>
+                        <h3>नवीन डॉक्युमेंट</h3>
+                        <p>Ctrl + N</p>
+                    </div>
+                    <div class="quick-card">
+                        <div class="quick-card-icon" style="background: rgba(34, 197, 94, 0.15); color: #4ade80;">👥</div>
+                        <h3>टीम मेम्बर्स</h3>
+                        <p>12 सक्रिय</p>
+                    </div>
+                    <div class="quick-card">
+                        <div class="quick-card-icon" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">📊</div>
+                        <h3>रिपोर्ट्स</h3>
+                        <p>5 नवीन</p>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="table-card">
+                    <div class="table-header">
+                        <span class="table-title">अलीकडील प्रोजेक्ट्स</span>
+                        <div class="table-search">
+                            <i class="fas fa-search" style="color: var(--text-muted); font-size: 12px;"></i>
+                            <input type="text" placeholder="शोधा...">
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>प्रोजेक्ट</th>
+                                <th>स्टेटस</th>
+                                <th>प्रगती</th>
+                                <th>डेडलाइन</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: 500;">E-Commerce App</td>
+                                <td><span class="status-pill active"><span class="status-dot-sm" style="background: #4ade80;"></span>सक्रिय</span></td>
+                                <td>85%</td>
+                                <td style="color: var(--text-muted);">15 जुलै 2026</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 500;">Dashboard Redesign</td>
+                                <td><span class="status-pill active"><span class="status-dot-sm" style="background: #4ade80;"></span>सक्रिय</span></td>
+                                <td>60%</td>
+                                <td style="color: var(--text-muted);">22 जुलै 2026</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 500;">Mobile API</td>
+                                <td><span class="status-pill pending"><span class="status-dot-sm" style="background: #fbbf24;"></span>प्रलंबित</span></td>
+                                <td>30%</td>
+                                <td style="color: var(--text-muted);">30 जुलै 2026</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 500;">Analytics Module</td>
+                                <td><span class="status-pill active"><span class="status-dot-sm" style="background: #4ade80;"></span>सक्रिय</span></td>
+                                <td>92%</td>
+                                <td style="color: var(--text-muted);">10 जुलै 2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard Shortcuts Hint -->
+    <div class="kbd-hint" id="kbd-hint">
+        <span>Keyboard Shortcuts:</span>
+        <kbd>⌘1</kbd> Dashboard
+        <kbd>⌘K</kbd> Search
+        <kbd>⌘,</kbd> Settings
+    </div>
+
+    <script>
+        // Show keyboard hint on first load
+        setTimeout(() => {
+            document.getElementById('kbd-hint').classList.add('show');
+        }, 1000);
+
+        setTimeout(() => {
+            document.getElementById('kbd-hint').classList.remove('show');
+        }, 6000);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Cmd/Ctrl + K for search
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                alert('Search opened! (⌘K)');
+            }
+            // Cmd/Ctrl + 1 for dashboard
+            if ((e.metaKey || e.ctrlKey) && e.key === '1') {
+                e.preventDefault();
+                document.querySelector('.nav-item.active')?.classList.remove('active');
+                document.querySelectorAll('.nav-item')[0].classList.add('active');
+            }
+        });
+
+        // Active nav item
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

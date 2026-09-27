@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 30px 20px;
+            border-radius: 20px;
+            max-width: 380px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        h1 { font-size: 24px; margin-bottom: 10px; color: #818cf8; }
+        p { font-size: 14px; color: #cbd5e1; margin-bottom: 25px; line-height: 1.5; }
+        .btn-signin {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s ease;
+        }
+        .btn-signin:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+    <div class="welcome-card">
+        <h1>🚀 स्वागत आहे!</h1>
+        <p>हे तुमचे वेलकम पेज (Landing Page) आहे. मुख्य वेबसाईट वापरण्यासाठी खालील बटणावर क्लिक करा.</p>
+        
+        <button class="btn-signin" onclick="handleTestSignIn()">Sign In / Get Started ➔</button>
+    </div>
+
+    <script>
+        function handleTestSignIn() {
+            // १. `app.js` मधील ग्लोबल फंक्शन कॉल करणे
+            if (typeof userSignIn === 'function') {
+                userSignIn();
+            } else if (window.parent && typeof window.parent.userSignIn === 'function') {
+                window.parent.userSignIn();
+            } else {
+                // बॅकअप म्हणून मॅन्युअली localStorage सेव्ह करा आणि रिफ्रेश करा
+                localStorage.setItem('pwa_user_logged_in', 'true');
+                window.location.reload();
+            }
+        }
+    </script>
+
+</body>
+</html>

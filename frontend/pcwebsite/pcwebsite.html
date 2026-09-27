@@ -1,0 +1,871 @@
+
+<!------ passsengar home ui and ux ---->
+
+
+
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>Universal PWA - PC Website</title>
+    <link rel="manifest" href="../../backend/manifest.json">      <!---- do not delete this line --->
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --bg: #0f172a;
+            --bg-light: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.6);
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.1);
+            --hover-bg: rgba(99, 102, 241, 0.1);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg) 100%);
+            border-right: 1px solid var(--border);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 72px;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .sidebar-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo-text {
+            font-weight: 700;
+            font-size: 18px;
+            background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.collapsed .sidebar-logo-text {
+            opacity: 0;
+            width: 0;
+        }
+
+        .nav-section {
+            margin-bottom: 8px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            padding: 12px;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.collapsed .nav-label {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            margin-bottom: 2px;
+        }
+
+        .nav-item:hover {
+            background: var(--hover-bg);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 0 3px 3px 0;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .nav-item:hover i,
+        .nav-item.active i {
+            color: var(--primary);
+        }
+
+        .nav-item span {
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar.collapsed .nav-badge {
+            opacity: 0;
+        }
+
+        /* Tooltip for collapsed sidebar */
+        .nav-item::after {
+            content: attr(data-title);
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 50%;
+            transform: translateY(-50%) scale(0.9);
+            background: var(--bg-light);
+            color: var(--text);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 200;
+        }
+
+        .sidebar.collapsed .nav-item:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            right: -14px;
+            top: 80px;
+            width: 28px;
+            height: 28px;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 10px;
+            transition: all 0.3s;
+            z-index: 101;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            margin-left: 260px;
+            padding: 24px 32px;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: 72px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .header-btn:hover {
+            background: var(--hover-bg);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .header-btn.primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+        }
+
+        .header-btn.primary:hover {
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon.blue { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+        .stat-icon.green { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .stat-icon.orange { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+        .stat-icon.purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .stat-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .stat-change.up {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+        }
+
+        .stat-change.down {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-action {
+            font-size: 12px;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .card-action:hover {
+            text-decoration: underline;
+        }
+
+        /* Activity List */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-item:hover {
+            padding-left: 8px;
+        }
+
+        .activity-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-text {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .activity-time {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .activity-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .activity-status.success { background: var(--success); box-shadow: 0 0 8px rgba(34, 197, 94, 0.4); }
+        .activity-status.warning { background: var(--warning); box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+        .activity-status.danger { background: var(--danger); box-shadow: 0 0 8px rgba(239, 68, 68, 0.4); }
+
+        /* Chart Placeholder */
+        .chart-container {
+            height: 240px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 20px 0;
+            gap: 8px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 6px 6px 0 0;
+            min-height: 20px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.7;
+        }
+
+        .chart-bar:hover {
+            opacity: 1;
+            transform: scaleY(1.05);
+        }
+
+        .chart-bar::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .chart-bar:hover::after {
+            opacity: 1;
+        }
+
+        /* Install Banner */
+        .install-banner {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .install-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .install-banner-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .install-banner-text h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .install-banner-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .install-banner-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .install-banner-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .content-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .main-content { margin-left: 0; padding: 16px; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">🚀</div>
+            <span class="sidebar-logo-text">Universal PWA</span>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-label">मुख्य</div>
+            <div class="nav-item active" data-title="डॅशबोर्ड">
+                <i class="fas fa-home"></i>
+                <span>डॅशबोर्ड</span>
+            </div>
+            <div class="nav-item" data-title="अ‍ॅनालिटिक्स">
+                <i class="fas fa-chart-line"></i>
+                <span>अ‍ॅनालिटिक्स</span>
+            </div>
+            <div class="nav-item" data-title="प्रोजेक्ट्स">
+                <i class="fas fa-folder"></i>
+                <span>प्रोजेक्ट्स</span>
+                <span class="nav-badge">3</span>
+            </div>
+            <div class="nav-item" data-title="कॅलेंडर">
+                <i class="fas fa-calendar"></i>
+                <span>कॅलेंडर</span>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-label">टूल्स</div>
+            <div class="nav-item" data-title="सेटिंग्ज">
+                <i class="fas fa-cog"></i>
+                <span>सेटिंग्ज</span>
+            </div>
+            <div class="nav-item" data-title="मदत">
+                <i class="fas fa-question-circle"></i>
+                <span>मदत</span>
+            </div>
+        </div>
+
+        <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+            <i class="fas fa-chevron-left" id="toggle-icon"></i>
+        </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Install Banner -->
+        <div class="install-banner" id="install-banner">
+            <div class="install-banner-content">
+                <div class="install-banner-icon">💻</div>
+                <div class="install-banner-text">
+                    <h3>PC App Install करा</h3>
+                    <p>ऑफलाइन अनुभवासाठी हे ॲप तुमच्या डेस्कटॉपवर जोडा</p>
+                </div>
+            </div>
+            <button class="install-banner-btn" onclick="installApp()">🚀 App Open करा</button>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1 class="header-title">डॅशबोर्ड</h1>
+                <p class="header-subtitle">PC Browser मोड - Mouse Hover Effects सह</p>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn">
+                    <i class="fas fa-bell"></i>
+                    सूचना
+                </button>
+                <button class="header-btn primary">
+                    <i class="fas fa-plus"></i>
+                    नवीन तयार करा
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue">👥</div>
+                <div class="stat-value">12,450</div>
+                <div class="stat-label">एकूण वापरकर्ते</div>
+                <div class="stat-change up">
+                    <i class="fas fa-arrow-up"></i> +12.5%
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">💰</div>
+                <div class="stat-value">₹2.4L</div>
+                <div class="stat-label">मासिक उत्पन्न</div>
+                <div class="stat-change up">
+                    <i class="fas fa-arrow-up"></i> +8.2%
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">📊</div>
+                <div class="stat-value">89.2%</div>
+                <div class="stat-label">सक्रियता दर</div>
+                <div class="stat-change down">
+                    <i class="fas fa-arrow-down"></i> -2.1%
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple">⭐</div>
+                <div class="stat-value">4.8</div>
+                <div class="stat-label">सरासरी रेटिंग</div>
+                <div class="stat-change up">
+                    <i class="fas fa-arrow-up"></i> +0.3%
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Chart Card -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3 class="card-title">वापरकर्ते वाढ</h3>
+                    <span class="card-action">सर्व पाहा →</span>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-bar" style="height: 40%;" data-value="400"></div>
+                    <div class="chart-bar" style="height: 55%;" data-value="550"></div>
+                    <div class="chart-bar" style="height: 45%;" data-value="450"></div>
+                    <div class="chart-bar" style="height: 70%;" data-value="700"></div>
+                    <div class="chart-bar" style="height: 60%;" data-value="600"></div>
+                    <div class="chart-bar" style="height: 80%;" data-value="800"></div>
+                    <div class="chart-bar" style="height: 75%;" data-value="750"></div>
+                    <div class="chart-bar" style="height: 90%;" data-value="900"></div>
+                    <div class="chart-bar" style="height: 85%;" data-value="850"></div>
+                    <div class="chart-bar" style="height: 95%;" data-value="950"></div>
+                    <div class="chart-bar" style="height: 100%;" data-value="1000"></div>
+                    <div class="chart-bar" style="height: 88%;" data-value="880"></div>
+                </div>
+            </div>
+
+            <!-- Activity Card -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3 class="card-title">अलीकडील क्रियाकलाप</h3>
+                    <span class="card-action">सर्व पाहा →</span>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-avatar">A</div>
+                    <div class="activity-content">
+                        <div class="activity-text">अमोल ने नवीन प्रोजेक्ट तयार केला</div>
+                        <div class="activity-time">2 मिनिटांपूर्वी</div>
+                    </div>
+                    <div class="activity-status success"></div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-avatar" style="background: linear-gradient(135deg, #22c55e, #16a34a);">S</div>
+                    <div class="activity-content">
+                        <div class="activity-text">स्मिता ने फाईल अपलोड केली</div>
+                        <div class="activity-time">15 मिनिटांपूर्वी</div>
+                    </div>
+                    <div class="activity-status warning"></div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">R</div>
+                    <div class="activity-content">
+                        <div class="activity-text">राहुल ने कमेंट केली</div>
+                        <div class="activity-time">1 तासापूर्वी</div>
+                    </div>
+                    <div class="activity-status success"></div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">P</div>
+                    <div class="activity-content">
+                        <div class="activity-text">प्रियाने टास्क पूर्ण केला</div>
+                        <div class="activity-time">3 तासांपूर्वी</div>
+                    </div>
+                    <div class="activity-status danger"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sidebar Toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const icon = document.getElementById('toggle-icon');
+            sidebar.classList.toggle('collapsed');
+            icon.classList.toggle('fa-chevron-left');
+            icon.classList.toggle('fa-chevron-right');
+
+            // Save preference
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+
+        // Restore sidebar state
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+            document.getElementById('sidebar').classList.add('collapsed');
+            const icon = document.getElementById('toggle-icon');
+            icon.classList.remove('fa-chevron-left');
+            icon.classList.add('fa-chevron-right');
+        }
+
+        // 🚀 App Open करा
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+// 🌟 झिप फाईल एरर फिक्स कोड (Clean Install Fallback)
+// तुमच्या मूळ pcwebsite किंवा इतर फाईल्समधील 'Install' बटणावर क्लिक केल्यावर हे फंक्शन रन होईल
+function installApp() {
+    if (typeof deferredPrompt !== 'undefined' && deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choice) => {
+            if (choice.outcome === 'accepted') {
+                console.log('User accepted the PWA install');
+            }
+            deferredPrompt = null;
+        });
+    } else {
+        // जर अधिकृत ब्राउझर प्रॉम्प्ट नसेल, तर झिप फाईलचा एरर देण्याऐवजी युझरला योग्य पर्याय दाखवणे
+        alert("ॲप स्थापित करण्यासाठी कृपया तुमच्या ब्राउझरच्या ॲड्रेस बारमधील 'Install' (➕) चिन्हावर किंवा थ्री-डॉट्स मेनूवर क्लिक करा.");
+    }
+}
+
+        // Hide install banner if already installed
+        if (window.matchMedia('(display-mode: standalone)').matches ||
+            localStorage.getItem('pwa_installed') === 'true') {
+            document.getElementById('install-banner').style.display = 'none';
+        }
+
+        // Animate chart bars on load
+        window.addEventListener('load', () => {
+            const bars = document.querySelectorAll('.chart-bar');
+            bars.forEach((bar, index) => {
+                const finalHeight = bar.style.height;
+                bar.style.height = '0%';
+                setTimeout(() => {
+                    bar.style.height = finalHeight;
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+

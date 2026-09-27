@@ -1,0 +1,361 @@
+
+<!-------- ------------>
+
+
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>Offline - Universal PWA</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #e2e8f0;
+            overflow: hidden;
+        }
+
+        .offline-container {
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Animated WiFi Icon */
+        .wifi-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 32px;
+            position: relative;
+        }
+
+        .wifi-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wifi-wave {
+            animation: wifiPulse 2s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        .wifi-wave:nth-child(1) { animation-delay: 0s; }
+        .wifi-wave:nth-child(2) { animation-delay: 0.3s; }
+        .wifi-wave:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes wifiPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Slash animation */
+        .slash-line {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawSlash 1s ease forwards 0.5s;
+        }
+
+        @keyframes drawSlash {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .offline-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #f87171, #fca5a5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .offline-subtitle {
+            font-size: 16px;
+            color: #94a3b8;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .offline-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .offline-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .offline-card-title svg {
+            width: 18px;
+            height: 18px;
+            color: #fbbf24;
+        }
+
+        .offline-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .offline-list li {
+            font-size: 13px;
+            color: #94a3b8;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .offline-list li:last-child {
+            border-bottom: none;
+        }
+
+        .offline-list li::before {
+            content: "✓";
+            color: #4ade80;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .retry-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .retry-btn:active {
+            transform: translateY(0);
+        }
+
+        .retry-btn.spinning svg {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-badge.online {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <div class="offline-container">
+        <!-- Status Badge -->
+        <div class="status-badge offline" id="status-badge">
+            <span class="status-dot"></span>
+            <span id="status-text">No Internet Connection</span>
+        </div>
+
+        <!-- WiFi Icon -->
+        <div class="wifi-icon">
+            <svg viewBox="0 0 120 120" fill="none">
+                <!-- WiFi waves -->
+                <path class="wifi-wave" d="M60 30C40 30 22 38 10 50" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+                <path class="wifi-wave" d="M60 15C32 15 10 28 0 45" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+                <path class="wifi-wave" d="M60 45C45 45 32 50 24 58" stroke="#6366f1" stroke-width="3" stroke-linecap="round"/>
+                <!-- Center dot -->
+                <circle cx="60" cy="70" r="6" fill="#6366f1"/>
+                <!-- Slash -->
+                <line class="slash-line" x1="20" y1="20" x2="100" y2="100" stroke="#ef4444" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <h1 class="offline-title">इंटरनेट नाही!</h1>
+        <p class="offline-subtitle">
+            तुमचे डिव्हाइस इंटरनेटशी कनेक्टेड नाही. काही फीचर्स तुम्ही ऑफलाइन वापरू शकता.
+        </p>
+
+        <!-- Cached Content Card -->
+        <div class="offline-card">
+            <div class="offline-card-title">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                ऑफलाइन वापरता येणारे फीचर्स
+            </div>
+            <ul class="offline-list">
+                <li>कॅशेड पेजेस पाहणे</li>
+                <li>यापूर्वी लोड केलेले डेटा</li>
+                <li>सेटिंग्ज बदलणे</li>
+                <li>लोकल स्टोरेजमधील माहिती</li>
+            </ul>
+        </div>
+
+        <!-- Retry Button -->
+        <button class="retry-btn" id="retry-btn" onclick="checkConnection()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            पुन्हा प्रयत्न करा
+        </button>
+    </div>
+
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Check connection status
+        function checkConnection() {
+            const btn = document.getElementById('retry-btn');
+            const badge = document.getElementById('status-badge');
+            const statusText = document.getElementById('status-text');
+
+            btn.classList.add('spinning');
+
+            setTimeout(() => {
+                if (navigator.onLine) {
+                    // Back online!
+                    badge.classList.remove('offline');
+                    badge.classList.add('online');
+                    statusText.textContent = 'Back Online!';
+
+                    setTimeout(() => {
+                        window.location.href = '../frontend/index.html';
+                    }, 1000);
+                } else {
+                    btn.classList.remove('spinning');
+                    // Still offline - shake animation
+                    badge.style.animation = 'none';
+                    badge.offsetHeight; // Trigger reflow
+                    badge.style.animation = 'shake 0.5s ease';
+                }
+            }, 1500);
+        }
+
+        // Listen for online event
+        window.addEventListener('online', () => {
+            const badge = document.getElementById('status-badge');
+            const statusText = document.getElementById('status-text');
+            badge.classList.remove('offline');
+            badge.classList.add('online');
+            statusText.textContent = 'Back Online!';
+
+            setTimeout(() => {
+                window.location.href = '../frontend/index.html';
+            }, 1500);
+        });
+
+        // Add shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

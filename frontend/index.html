@@ -1,0 +1,176 @@
+
+<!-- main entry point -->
+
+
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="description" content="Universal PWA - PC, Android & iPhone">
+    <meta name="google-site-verification" content="3tpo-3TicOwwK3T4pSfTxOveJIsTfamjfY4WdeiEVf4" />
+    <title>Universal PWA</title>
+
+    <link rel="manifest" href="../backend/manifest.json">
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAMklEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+
+    <link rel="apple-touch-icon" sizes="152x152" href="../assets/icons/apple-touch-icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" sizes="152x152" href="../assets/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="../assets/icons/icon-167x167.png">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Universal PWA">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* 🎨 बेसिक ग्लोबल स्टाईल्स */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            overflow: hidden;
+            color: #e2e8f0;
+        }
+
+        /* 🎯 सेंट्रल गेटवे कंटेनर: याच बॉक्समध्ये तुमची कोणतीही स्प्लॅश स्क्रीन किंवा मुख्य ॲप लोड होईल */
+        #app-gateway-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* साधा बॅकअप लोडर (जोपर्यंत फाईल फेच होत नाही तोपर्यंत हा दिसेल) */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #6366f1;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* PWA इन्स्टॉल प्रॉम्प्ट स्टाईल्स */
+        #install-container {
+            position: fixed;
+            bottom: 30px; left: 0; right: 0; padding: 20px;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent);
+            display: none; z-index: 1000;
+        }
+        .install-card {
+            background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px; padding: 20px; max-width: 400px; margin: 0 auto; backdrop-filter: blur(10px);
+        }
+        .install-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .install-icon {
+            width: 48px; height: 48px; background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px;
+        }
+        .install-title { font-size: 16px; font-weight: 700; color: #e2e8f0; }
+        .install-buttons { display: flex; gap: 10px; }
+        .btn-install {
+            flex: 1; padding: 12px 20px; border: none; border-radius: 10px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; font-weight: 600; cursor: pointer;
+        }
+        .btn-dismiss {
+            padding: 12px 20px; border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 10px; background: transparent; color: #94a3b8; cursor: pointer;
+        }
+        #ios-guide {
+            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8);
+            z-index: 10000; align-items: center; justify-content: center; padding: 20px;
+        }
+
+        /* 🌟 बॉटम ब्रँडिंग स्टाईल (पांढरा मजकूर व सेलिंग लिंक) 
+        #developer-branding-footer {
+            position: fixed;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99999;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            pointer-events: auto;
+            white-space: nowrap;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 4px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        #developer-branding-footer a {
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: underline;
+            margin-left: 4px;
+            transition: color 0.2s ease;
+        }
+
+        #developer-branding-footer a:hover {
+            color: #818cf8;
+        }
+
+*/
+
+    </style>
+</head>
+<body>
+   
+    <div id="app-gateway-container">
+        <div style="display: flex; height: 100vh; align-items: center; justify-content: center;">
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <div id="install-container">
+        <div class="install-card">
+            <div class="install-header">
+                <div class="install-icon">📱</div>
+                <div>
+                    <div class="install-title">ॲप स्थापित करा</div>
+                    <div style="font-size: 12px; color: #64748b;">ऑफलाइन अनुभवासाठी</div>
+                </div>
+            </div>
+            <div style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">
+                हे ॲप तुमच्या होम स्क्रीनवर जोडा. इंटरनेट नसतानाही वापरा!
+            </div>
+            <div class="install-buttons">
+                <button class="btn-install" id="btn-install" onclick="installApp()"><span id="install-btn-text">🚀 App Open करा</span></button>
+                <button class="btn-dismiss" onclick="dismissInstall()">नंतर</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="ios-guide" onclick="closeIOSGuide()">
+        <div class="ios-guide-card" style="background: #1e293b; border-radius: 20px; padding: 28px; max-width: 340px; width: 100%; text-align: center;">
+            <div style="font-size: 40px; margin-bottom: 12px;">📲</div>
+            <div style="font-size: 18px; font-weight: 700; color: #e2e8f0; margin-bottom: 8px;">iPhone वर ॲप जोडा</div>
+            <button class="btn-install" onclick="closeIOSGuide()" style="width: 100%;">समजले</button>
+        </div>
+    </div>
+
+   <!---- <div id="developer-branding-footer">
+        Powered by <a href="YOUR_SELLING_WEBSITE_URL_HERE" target="_blank" rel="noopener noreferrer" id="branding-selling-link">Yash Shinde</a>
+    </div>     ---->
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
+

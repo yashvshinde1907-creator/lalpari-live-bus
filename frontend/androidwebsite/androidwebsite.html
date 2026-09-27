@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Universal PWA - Mobile</title>
+    <link rel="manifest" href="../../backend/manifest.json">  <!---- do not delete this line --->
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --bg: #0f172a;
+            --bg-light: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.6);
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.1);
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding-top: var(--safe-top);
+            padding-bottom: var(--safe-bottom);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== MOBILE CONTAINER ===== */
+        .mobile-container {
+            max-width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== HEADER ===== */
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .header-logo-text {
+            font-size: 16px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #c7d2fe, #a5b4fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-menu-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            padding: 24px 16px;
+            text-align: center;
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .hero-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #e2e8f0, #c7d2fe);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            padding: 0 20px;
+        }
+
+        /* ===== INSTALL CARD ===== */
+        .install-card {
+            margin: 0 16px 24px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .install-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .install-card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .btn-install-mobile {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-install-mobile:active {
+            transform: scale(0.97);
+        }
+
+        /* ===== STATS ROW ===== */
+        .stats-row {
+            display: flex;
+            gap: 12px;
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-box:active {
+            transform: scale(0.97);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .stat-box-value {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .stat-box-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            padding: 0 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-link {
+            font-size: 12px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* ===== FEATURE CARDS ===== */
+        .features-scroll {
+            display: flex;
+            gap: 12px;
+            padding: 0 16px 24px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .features-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .feature-card {
+            min-width: 140px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            scroll-snap-align: start;
+            transition: all 0.3s;
+        }
+
+        .feature-card:active {
+            transform: scale(0.95);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin: 0 auto 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .feature-card p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ===== LIST ITEMS ===== */
+        .list-section {
+            padding: 0 16px 24px;
+        }
+
+        .list-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:active {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .list-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .list-content {
+            flex: 1;
+        }
+
+        .list-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .list-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .list-arrow {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 calc(8px + var(--safe-bottom));
+            z-index: 100;
+        }
+
+        .nav-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+            color: var(--text-muted);
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+        }
+
+        .nav-tab:active {
+            transform: scale(0.9);
+        }
+
+        .nav-tab-icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .nav-tab-label {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* ===== PULL TO REFRESH ===== */
+        .ptr-indicator {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .ptr-indicator.visible {
+            opacity: 1;
+        }
+
+        .ptr-spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Pull to Refresh -->
+        <div class="ptr-indicator" id="ptr">
+            <div class="ptr-spinner"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="mobile-header">
+            <div class="header-logo">
+                <div class="header-logo-icon">🚀</div>
+                <span class="header-logo-text">Universal</span>
+            </div>
+            <button class="header-menu-btn">☰</button>
+        </header>
+
+        <!-- Hero -->
+        <section class="hero-section">
+            <div class="hero-icon">📱</div>
+            <h1 class="hero-title">Mobile Browser</h1>
+            <p class="hero-subtitle">Compact UI, Touch Optimized, Fast Loading</p>
+        </section>
+
+        <!-- Install Card -->
+        <div class="install-card" id="install-card">
+            <div class="install-card-title">🚀 ॲप Install करा</div>
+            <p class="install-card-desc">
+                होम स्क्रीनवर जोडा आणि ऑफलाइन वापरा. एक क्लिकवर उघडा!
+            </p>
+            <button class="btn-install-mobile" onclick="installApp()">
+                <span>📲</span>
+                🚀 App Open करा
+            </button> 
+        </div> 
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-box-value" style="color: #818cf8;">12K</div>
+                <div class="stat-box-label">Users</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-value" style="color: #4ade80;">98%</div>
+                <div class="stat-box-label">Uptime</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-value" style="color: #fbbf24;">4.8</div>
+                <div class="stat-box-label">Rating</div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="section-title">
+            <span>वैशिष्ट्ये</span>
+            <span class="section-link">सर्व पाहा</span>
+        </div>
+
+        <div class="features-scroll">
+            <div class="feature-card">
+                <div class="feature-icon" style="background: rgba(99, 102, 241, 0.15);">⚡</div>
+                <h3>वेगवान</h3>
+                <p>Lightning Fast</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: rgba(34, 197, 94, 0.15);">🔒</div>
+                <h3>सुरक्षित</h3>
+                <p>End-to-End</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: rgba(245, 158, 11, 0.15);">📡</div>
+                <h3>ऑफलाइन</h3>
+                <p>No Internet</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon" style="background: rgba(168, 85, 247, 0.15);">🎨</div>
+                <h3>सुंदर</h3>
+                <p>Modern UI</p>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="section-title">
+            <span>अलीकडील क्रियाकलाप</span>
+        </div>
+
+        <div class="list-section">
+            <div class="list-card">
+                <div class="list-item">
+                    <div class="list-icon" style="background: rgba(99, 102, 241, 0.15);">📄</div>
+                    <div class="list-content">
+                        <div class="list-title">नवीन फाईल अपलोड</div>
+                        <div class="list-desc">2 मिनिटांपूर्वी</div>
+                    </div>
+                    <span class="list-arrow">›</span>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon" style="background: rgba(34, 197, 94, 0.15);">✅</div>
+                    <div class="list-content">
+                        <div class="list-title">टास्क पूर्ण</div>
+                        <div class="list-desc">15 मिनिटांपूर्वी</div>
+                    </div>
+                    <span class="list-arrow">›</span>
+                </div>
+                <div class="list-item">
+                    <div class="list-icon" style="background: rgba(245, 158, 11, 0.15);">🔔</div>
+                    <div class="list-content">
+                        <div class="list-title">नवीन सूचना</div>
+                        <div class="list-desc">1 तासापूर्वी</div>
+                    </div>
+                    <span class="list-arrow">›</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spacer for bottom nav -->
+        <div style="height: 80px;"></div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-tab active">
+                <span class="nav-tab-icon">🏠</span>
+                <span class="nav-tab-label">होम</span>
+            </button>
+            <button class="nav-tab">
+                <span class="nav-tab-icon">📊</span>
+                <span class="nav-tab-label">डेटा</span>
+            </button>
+            <button class="nav-tab">
+                <span class="nav-tab-icon">➕</span>
+                <span class="nav-tab-label">नवीन</span>
+            </button>
+            <button class="nav-tab">
+                <span class="nav-tab-icon">👤</span>
+                <span class="nav-tab-label">प्रोफाईल</span>
+            </button>
+        </nav>
+    </div>
+
+<script>
+       // 🚀 App Open करा
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        // 🌟 झिप फाईल एरर फिक्स कोड (Clean Install Fallback)
+// तुमच्या मूळ pcwebsite किंवा इतर फाईल्समधील 'Install' बटणावर क्लिक केल्यावर हे फंक्शन रन होईल
+function installApp() {
+    if (typeof deferredPrompt !== 'undefined' && deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choice) => {
+            if (choice.outcome === 'accepted') {
+                console.log('User accepted the PWA install');
+            }
+            deferredPrompt = null;
+        });
+    } else {
+        // जर अधिकृत ब्राउझर प्रॉम्प्ट नसेल, तर झिप फाईलचा एरर देण्याऐवजी युझरला योग्य पर्याय दाखवणे
+        alert("ॲप स्थापित करण्यासाठी कृपया तुमच्या ब्राउझरच्या ॲड्रेस बारमधील 'Install' (➕) चिन्हावर किंवा थ्री-डॉट्स मेनूवर क्लिक करा.");
+    }
+}
+
+        // Hide install card if already installed
+        if (localStorage.getItem('pwa_installed') === 'true') {
+            document.getElementById('install-card').style.display = 'none';
+        }
+
+        // Bottom nav active state
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Pull to refresh simulation
+        let touchStartY = 0;
+        const ptr = document.getElementById('ptr');
+
+        document.addEventListener('touchstart', (e) => {
+            if (window.scrollY === 0) {
+                touchStartY = e.touches[0].clientY;
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (window.scrollY === 0) {
+                const diff = e.touches[0].clientY - touchStartY;
+                if (diff > 60) {
+                    ptr.classList.add('visible');
+                }
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            if (ptr.classList.contains('visible')) {
+                setTimeout(() => {
+                    ptr.classList.remove('visible');
+                    // Refresh content here
+                }, 1500);
+            }
+        });
+        
+
+    </script> 
+</body>
+</html>

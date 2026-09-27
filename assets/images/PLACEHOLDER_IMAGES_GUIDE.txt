@@ -1,0 +1,142 @@
+╔══════════════════════════════════════════════════════════════╗
+║           🖼️  UNIVERSAL PWA - IMAGE REPLACEMENT GUIDE          ║
+╚══════════════════════════════════════════════════════════════╝
+
+तुमच्या ॲपसाठी कोणती इमेज कुठे टाकायची - हे खाली दिले आहे.
+
+═══════════════════════════════════════════════════════════════
+📁 1. ICONS FOLDER (assets/icons/)
+═══════════════════════════════════════════════════════════════
+
+हे Icons तुमच्या ॲपच्या Home Screen वर दिसतील.
+
+┌─────────────────────┬─────────────┬──────────────────────────┐
+│ File Name           │ Size        │ Used On                  │
+├─────────────────────┼─────────────┼──────────────────────────┤
+│ icon-72x72.png      │ 72 x 72     │ Android Notifications    │
+│ icon-96x96.png      │ 96 x 96     │ Android Shortcuts        │
+│ icon-128x128.png    │ 128 x 128   │ Chrome Web Store         │
+│ icon-144x144.png    │ 144 x 144   │ Android Splash Screen    │
+│ icon-152x152.png    │ 152 x 152   │ iPad Touch Icon          │
+│ icon-192x192.png    │ 192 x 192   │ Android Home Screen      │
+│ icon-384x384.png    │ 384 x 384   │ PWA Splash Screen        │
+│ icon-512x512.png    │ 512 x 512   │ PC Install Prompt        │
+│ apple-touch-icon.png│ 180 x 180   │ iPhone Home Screen       │
+└─────────────────────┴─────────────┴──────────────────────────┘
+
+💡 TIP: सर्व Icons सारखेच दिसले पाहिजेत, फक्त Size वेगळी आहे.
+
+═══════════════════════════════════════════════════════════════
+📁 2. IMAGES FOLDER (assets/images/)
+═══════════════════════════════════════════════════════════════
+
+हे Images तुमच्या ॲपच्या Screen वर दिसतील.
+
+┌──────────────────────┬─────────────┬─────────────────────────┐
+│ File Name            │ Size        │ Used On                 │
+├──────────────────────┼─────────────┼─────────────────────────┤
+│ screenshot-pc.png    │ 1280 x 720  │ PC Screenshot (Manifest)│
+│ screenshot-mobile.png│ 390 x 844   │ Mobile Screenshot       │
+│ offline-banner.png   │ 800 x 400   │ "No Internet" Page      │
+│ hero-image.png       │ 600 x 400   │ Homepage Hero Section   │
+│ splash-bg.png        │ 1920 x 1080 │ Splash Screen BG        │
+│ avatar-default.png   │ 200 x 200   │ Default User Avatar     │
+│ logo-full.png        │ 400 x 100   │ Header/Footer Logo      │
+│ logo-icon.png        │ 100 x 100   │ Small Icon Only         │
+└──────────────────────┴─────────────┴─────────────────────────┘
+
+═══════════════════════════════════════════════════════════════
+🎨 3. HOW TO CHANGE COLORS
+═══════════════════════════════════════════════════════════════
+
+प्रत्येक HTML file मध्ये हे Colors सापडतील:
+
+  --primary: #6366f1;      ← Main Brand Color (Purple)
+  --secondary: #8b5cf6;    ← Accent Color
+  --bg: #0f172a;           ← Dark Background
+  --bg-light: #1e293b;     ← Card Background
+  --text: #e2e8f0;         ← White Text
+  --text-muted: #94a3b8;    ← Gray Text
+
+हे Hex Codes (#6366f1) तुमच्या Brand Colors ने Replace करा.
+
+═══════════════════════════════════════════════════════════════
+✏️ 4. HOW TO CHANGE APP NAME
+═══════════════════════════════════════════════════════════════
+
+खालील Text Search करा आणि Replace करा:
+
+  "Universal PWA"     → तुमच्या ॲपचं नाव
+  "universal-pwa"     → तुमच्या ॲपचं Short Name
+
+Files मध्ये Search करा:
+  - frontend/index.html
+  - backend/manifest.json
+  - backend/offline.html
+  - frontend/*/index.html
+
+═══════════════════════════════════════════════════════════════
+🚀 5. QUICK START STEPS
+═══════════════════════════════════════════════════════════════
+
+Step 1: Icons बनवा (Figma/Canva वापरा)
+Step 2: Images बनवा (Unsplash/Pexels वापरा)
+Step 3: Images या Folder मध्ये Paste करा
+Step 4: Colors बदला (CSS मध्ये Hex Codes)
+Step 5: App Name बदला (Search & Replace)
+Step 6: Test करा (Live Server वापरा)
+
+═══════════════════════════════════════════════════════════════
+🛠️ 6. RECOMMENDED TOOLS
+═══════════════════════════════════════════════════════════════
+
+Icons बनवण्यासाठी:
+  • Figma (Free)        → figma.com
+  • Canva (Free)        → canva.com
+  • IconKitchen (Free)  → icon.kitchen
+
+Images शोधण्यासाठी:
+  • Unsplash (Free)     → unsplash.com
+  • Pexels (Free)       → pexels.com
+
+Colors निवडण्यासाठी:
+  • Coolors (Free)      → coolors.co
+  • Adobe Color (Free)  → color.adobe.com
+
+Images Compress करण्यासाठी:
+  • TinyPNG (Free)      → tinypng.com
+
+═══════════════════════════════════════════════════════════════
+✅ CHECKLIST
+═══════════════════════════════════════════════════════════════
+
+Must Do (अगदी आवश्यक):
+  [ ] icon-192x192.png     - Android Home Screen
+  [ ] icon-512x512.png     - PC Install
+  [ ] apple-touch-icon.png - iPhone Home Screen
+
+Should Do (करावंच):
+  [ ] screenshot-pc.png      - PC Preview
+  [ ] screenshot-mobile.png  - Mobile Preview
+  [ ] offline-banner.png     - No Internet Page
+
+Optional (केले तरी चालेल):
+  [ ] hero-image.png         - Homepage
+  [ ] logo-full.png          - Header Logo
+  [ ] splash-bg.png          - Splash Background
+
+═══════════════════════════════════════════════════════════════
+💡 PRO TIPS
+═══════════════════════════════════════════════════════════════
+
+1. File Names बदलू नका - Code मध्ये तेच नाव वापरले आहे
+2. Size जवळपास Same ठेवा - Layout बिघडणार नाही
+3. Format PNG ठेवा - Transparent Background साठी
+4. Images Optimize करा - TinyPNG ने Size कमी करा
+5. सर्व Devices वर Test करा - PC, Android, iPhone
+
+═══════════════════════════════════════════════════════════════
+
+🎉 Ready? Start with Icons, then Images, then Colors!
+
+Questions? → README.md file पाहा (assets/images/README.md)

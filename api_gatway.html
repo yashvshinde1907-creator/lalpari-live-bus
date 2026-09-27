@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal PWA Gateway</title>
+
+<body style="background-color: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+    <div style="text-align: center;">
+        <h2>Connecting to Gateway Engine...</h2>
+        <div style="margin: 20px auto; width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: #6366f1; border-radius: 50%; animation: spin 1.0s linear infinite;"></div>
+    </div>
+    <style>@keyframes spin { to { transform: rotate(360deg); } }</style> 
+
+    <script>
+        
+        (function() {
+            console.log("🛡️ API Gateway Checking Route...");
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            let targetRedirect = './frontend/index.html';
+            if (isStandalone) {
+                targetRedirect = './frontend/index.html?mode=standalone';
+            } else {
+                targetRedirect = './frontend/index.html?mode=browser';
+            }
+            console.log(`➡️ Gateway Redirecting to: ${targetRedirect}`);
+            window.location.href = targetRedirect;
+        })();
+
+
+    </script>
+</head>
+
+</body>
+</html>
+
+
+
+

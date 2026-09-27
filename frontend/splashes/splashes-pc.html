@@ -1,0 +1,152 @@
+
+<!----------
+
+<style>
+
+        /* Optional: Add any CSS for animations or interactions here..... */
+
+    </style>
+
+<div
+
+      Optional: Add any TEXT & IMG for animations or interactions here..... 
+   
+    </div>
+
+<script>
+
+    // Optional: Add any JavaScript for animations or interactions here....     
+
+</script>                                                                 ------------------>
+
+
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal PWA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body {
+            height: 100dvh; /* मोबाईल + PC दोन्हीसाठी बेस्ट */
+            width: 100vw;
+            overflow: hidden;
+            background: #0f0f0f;
+        }
+
+        body {
+            display: grid; /* grid ने सेंटरिंग जास्त पक्की होते */
+            place-items: center; /* आडवा + उभा दोन्ही सेंटर */
+            color: white;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin-bottom: 32px;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 60px rgba(99, 102, 241, 0.4);
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .app-name {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e2e8f0, #c7d2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .tagline { font-size: 14px; color: #94a3b8; margin-bottom: 32px; }
+        .loader-bar {
+            width: 240px; /* थोडा मोठा केला */
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .loader-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            animation: fillBar 2.2s ease-out infinite; /* loop साठी infinite */
+        }
+        @keyframes fillBar {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 0%; }
+        }
+        .loading-text {
+            margin-top: 16px;
+            font-size: 12px;
+            color: #6366f1;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="logo-ring">💻</div>
+        <div class="app-name">युनिव्हर्सल PWA</div>
+        <div class="tagline">PC APP प्रीमियम अनुभव</div>
+        <div class="loader-bar"><div class="loader-fill"></div></div>
+        <div class="loading-text">डेस्कटॉप इंटरफेस लोड होत आहे...</div>
+    </div>
+</body>
+</html>
+
+<!------------
+
+////////////////////////////////////////////////////////////////////////////////
+    
+<style>
+
+        /* Optional: Add any CSS for animations or interactions here..... */
+
+    </style>
+
+..................................................................................
+
+<div
+
+     Optional: Add any TEXT & IMG for animations or interactions here..... 
+   
+    </div>
+
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+<script>
+
+    // Optional: Add any JavaScript for animations or interactions here.....
+
+</script>>
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\      -------------->
+
+</body>
+</html>
+
+
