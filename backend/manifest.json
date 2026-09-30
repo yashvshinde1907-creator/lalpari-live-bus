@@ -1,8 +1,8 @@
 
 
 {
-  "name": "Universal PWA",
-  "short_name": "UniversalPWA",
+  "name": "LALPARI BUS TRAKIG APP",
+  "short_name": "LALPARI-LIVE",
   "description": "PC, Android आणि iPhone साठी Universal Progressive Web App",
   "start_url": "../frontend/index.html?mode=standalone",
   "display": "standalone",
