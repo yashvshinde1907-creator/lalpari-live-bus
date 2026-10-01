@@ -2,9 +2,10 @@
  * Universal PWA - Service Worker
  */
 
-const CACHE_NAME = 'universal-pwa-cache-v1';
+// 🎯 १. जेव्हा जेव्हा कोड किंवा कंटेंट बदलाल, तेव्हा व्हर्जन बदला (v1 -> v2)
+const CACHE_NAME = 'universal-pwa-cache-v2';
 
-// 🎯 FIX: Paths relative to SW location (frontend/)
+// Paths relative to SW location
 const ASSETS_TO_CACHE = [
     './index.html',
     './app.js',
@@ -45,35 +46,50 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch event - cache-first strategy
+// Fetch event - Network-First for HTML, Cache-First for static assets
 self.addEventListener('fetch', (event) => {
     if (!event.request.url.startsWith(self.location.origin) || event.request.method !== 'GET') {
         return;
     }
 
-    event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-            if (cachedResponse) {
-                return cachedResponse;
-            }
+    const isHTMLRequest = event.request.mode === 'navigate' || event.request.url.endsWith('index.html');
 
-            return fetch(event.request).then((networkResponse) => {
-                if (networkResponse && networkResponse.status === 200) {
-                    const responseToCache = networkResponse.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseToCache);
-                    });
+    // 🎯 २. HTML/होमपेजसाठी आधी नेटवर्कवरून नवीन फाईल आणणार (Network-First)
+    if (isHTMLRequest) {
+        event.respondWith(
+            fetch(event.request)
+                .then((networkResponse) => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        const responseToCache = networkResponse.clone();
+                        caches.open(CACHE_NAME).then((cache) => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    }
+                    return networkResponse;
+                })
+                .catch(() => {
+                    // इंटरनेट नसल्यास कॅशमधील फाईल दाखवेल
+                    return caches.match('./index.html');
+                })
+        );
+    } else {
+        // इमेज, सीएसएस, जेएस साठी आधी कॅश तपासणार (Cache-First)
+        event.respondWith(
+            caches.match(event.request).then((cachedResponse) => {
+                if (cachedResponse) {
+                    return cachedResponse;
                 }
-                return networkResponse;
-            }).catch((err) => {
-                console.log('SW: Fetch failed, application is offline.', err);
-                // 🎯 FIX: Relative fallback path from SW location
-                return caches.match('./index.html');
-            });
-        })
-    );
+
+                return fetch(event.request).then((networkResponse) => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        const responseToCache = networkResponse.clone();
+                        caches.open(CACHE_NAME).then((cache) => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    }
+                    return networkResponse;
+                });
+            })
+        );
+    }
 });
-
-
-
-
