@@ -1,152 +1,85 @@
-
-<!----------
-
-<style>
-
-        /* Optional: Add any CSS for animations or interactions here..... */
-
-    </style>
-
-<div
-
-      Optional: Add any TEXT & IMG for animations or interactions here..... 
-   
-    </div>
-
-<script>
-
-    // Optional: Add any JavaScript for animations or interactions here....     
-
-</script>                                                                 ------------------>
-
-
 <!DOCTYPE html>
-<html lang="mr">
+<html lang="mr" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LALPARI-LIVE</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html, body {
-            height: 100dvh; /* मोबाईल + PC दोन्हीसाठी बेस्ट */
-            width: 100vw;
-            overflow: hidden;
-            background: #0f0f0f;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
+  <meta name="theme-color" content="#0b1c3d">
+  <meta name="description" content="LalPari.Live - Official MSRTC Bus Tracking Splash Screen">
+  <title>LalPari.Live - Splash Screen</title>
+  
+  <link rel="apple-touch-icon" sizes="152x152" href="../../assets/images/splash-background.jpeg">
 
-        body {
-            display: grid; /* grid ने सेंटरिंग जास्त पक्की होते */
-            place-items: center; /* आडवा + उभा दोन्ही सेंटर */
-            color: white;
-            font-family: 'Inter', -apple-system, sans-serif;
-        }
-        
-        .main-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #0b1c3d;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
 
-        .logo-ring {
-            width: 120px;
-            height: 120px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            margin-bottom: 32px;
-            animation: pulse 2s ease-in-out infinite;
-            box-shadow: 0 0 60px rgba(99, 102, 241, 0.4);
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        .app-name {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #e2e8f0, #c7d2fe);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-        .tagline { font-size: 14px; color: #94a3b8; margin-bottom: 32px; }
-        .loader-bar {
-            width: 240px; /* थोडा मोठा केला */
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .loader-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            animation: fillBar 2.2s ease-out infinite; /* loop साठी infinite */
-        }
-        @keyframes fillBar {
-            0% { width: 0%; }
-            50% { width: 70%; }
-            100% { width: 0%; }
-        }
-        .loading-text {
-            margin-top: 16px;
-            font-size: 12px;
-            color: #6366f1;
-            animation: blink 1.5s ease-in-out infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
-    </style>
+    .splash-shell {
+      height: 100vh;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-image: url('../../assets/images/splash-background.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        background: #040914;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .splash-shell {
+        width: 100%;
+        max-width: 520px;
+        height: 100vh;
+        max-height: 980px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="main-wrapper">
-        <div class="logo-ring">💻</div>
-        <div class="app-name">युनिव्हर्सल PWA</div>
-        <div class="tagline">PC APP प्रीमियम अनुभव</div>
-        <div class="loader-bar"><div class="loader-fill"></div></div>
-        <div class="loading-text">डेस्कटॉप इंटरफेस लोड होत आहे...</div>
-    </div>
-</body>
-</html>
 
-<!------------
+  <div class="splash-shell" id="splashScreen">
+    <!-- स्प्लॅश स्क्रीन कंटेंट (इमेज बॅकग्राउंड म्हणून सेट केली आहे) -->
+  </div>
 
-////////////////////////////////////////////////////////////////////////////////
-    
-<style>
+  <script>
+    const LOADING_DURATION = 4000; // ४ सेकंद स्प्लॅश स्क्रीन दाखवेल
 
-        /* Optional: Add any CSS for animations or interactions here..... */
+    // ३.५ सेकंदांनंतर स्प्लॅश स्क्रीन हळूहळू हायड (Fade Out) होईल
+    setTimeout(() => {
+      const splash = document.getElementById('splashScreen');
+      if (splash) {
+        splash.classList.add('fade-out');
+      }
+    }, LOADING_DURATION - 500);
 
-    </style>
-
-..................................................................................
-
-<div
-
-     Optional: Add any TEXT & IMG for animations or interactions here..... 
-   
-    </div>
-
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-
-<script>
-
-    // Optional: Add any JavaScript for animations or interactions here.....
-
-</script>>
-
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\      -------------->
+    // ४ सेकंदांनंतर होम/मुख्य पानावर (index.html) घेऊन जाईल
+    setTimeout(() => {
+      window.location.href = '../index.html'; // तुमच्या मुख्य पेजचा अचूक पाथ इथे टाका
+    }, LOADING_DURATION);
+  </script>
 
 </body>
 </html>
-
-

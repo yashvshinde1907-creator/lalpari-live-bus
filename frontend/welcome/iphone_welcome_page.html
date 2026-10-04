@@ -1,71 +1,712 @@
 <!DOCTYPE html>
-<html lang="mr">
+<html lang="mr" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iphone-Welcome Page LALPARI-LIVE</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #ffffff;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+<meta name="theme-color" content="#dc2626">
+<meta name="description" content="LalPari.Live - Official MSRTC Bus Live Tracking & Role Portal for Maharashtra">
+<title>iphone-Welcome Page LALPARI.live</title>
+
+<!-- Font Awesome 6 CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- Google Fonts: Inter, Kalam (handwriting) & Mukta (Marathi font) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Kalam:wght@700&family=Mukta:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'Mukta', 'sans-serif'],
+          marathi: ['Mukta', 'sans-serif'],
+          handwriting: ['Kalam', 'cursive'],
+        },
+        colors: {
+          msrtc: {
+            red: '#dc2626',
+            blue: '#2563eb',
+            darkBlue: '#1e3a8a',
+            gold: '#d97706',
+          }
         }
-        .welcome-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 30px 20px;
-            border-radius: 20px;
-            max-width: 380px;
-            width: 100%;
-            backdrop-filter: blur(10px);
-        }
-        h1 { font-size: 24px; margin-bottom: 10px; color: #818cf8; }
-        p { font-size: 14px; color: #cbd5e1; margin-bottom: 25px; line-height: 1.5; }
-        .btn-signin {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            width: 100%;
-            transition: transform 0.2s ease;
-        }
-        .btn-signin:active { transform: scale(0.98); }
-    </style>
+      }
+    }
+  }
+</script>
+
+<style>
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Mukta', sans-serif;
+    background-color: #f8fafc;
+    color: #0f172a;
+    overflow-x: hidden;
+}
+
+/* Safe area inset support for modern iPhones (Notch & Home Bar) */
+.pb-safe {
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+}
+.pt-safe {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+/* Dynamic role card interactive states */
+.role-card {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.role-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px -5px rgba(37, 99, 235, 0.15);
+}
+
+.role-card:active {
+    transform: scale(0.98);
+}
+
+/* Pulsing Badge Animation */
+@keyframes livePulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.35); opacity: 0.35; }
+}
+.live-pulse {
+    animation: livePulse 1.6s infinite ease-in-out;
+}
+
+/* Carousel Track & Slide Styling */
+.carousel-track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Custom Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+</style>
 </head>
-<body>
 
-    <div class="welcome-card">
-        <h1>🚀 स्वागत आहे!</h1>
-        <p>हे तुमचे वेलकम पेज (Landing Page) आहे. मुख्य वेबसाईट वापरण्यासाठी खालील बटणावर क्लिक करा.</p>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+<!-- TOP HEADER / NAVBAR (Fully Fluid across PC & Mobile) -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs pt-safe">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <button class="btn-signin" onclick="handleTestSignIn()">Sign In / Get Started ➔</button>
-    </div>
+        <!-- Left: App Logo & Title -->
+        <div class="flex items-center gap-3">
+            <div class="relative w-11 h-11 sm:w-12 sm:h-12">
+                <img src="../../assets/icons/apple-touch-icon.png" alt="App Logo" class="w-full h-full object-contain rounded-2xl" />
+                <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white live-pulse"></span>
+            </div>
+            
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-xl sm:text-2xl font-black tracking-tight leading-none">
+                        <span class="text-red-600">LalPari</span><span class="text-blue-600">.Live</span>
+                    </h1>
+                    <span class="hidden sm:inline-flex bg-red-100 text-red-700 text-[10px] font-black px-2 py-0.5 rounded-full items-center gap-1 border border-red-200">
+                        <span class="w-1.5 h-1.5 bg-red-600 rounded-full live-pulse"></span> MSRTC GPS
+                    </span>
+                </div>
+                <p class="text-[11px] font-bold text-slate-600 hidden sm:block">
+                    महाराष्ट्र राज्य मार्ग परिवहन महामंडळ • Maharashtra State Road Transport
+                </p>
+                <p class="text-[10px] font-bold text-slate-500 sm:hidden">
+                    MSRTC Live Tracking
+                </p>
+            </div>
+        </div>
 
-    <script>
-        function handleTestSignIn() {
-            // १. `app.js` मधील ग्लोबल फंक्शन कॉल करणे
-            if (typeof userSignIn === 'function') {
-                userSignIn();
-            } else if (window.parent && typeof window.parent.userSignIn === 'function') {
-                window.parent.userSignIn();
-            } else {
-                // बॅकअप म्हणून मॅन्युअली localStorage सेव्ह करा आणि रिफ्रेश करा
-                localStorage.setItem('pwa_user_logged_in', 'true');
-                window.location.reload();
-            }
+        <!-- Center Navigation (Desktop / PC Mode view) -->
+        <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-600">
+            <a href="#tracking" class="text-red-600 flex items-center gap-1.5 hover:text-red-700">
+                <i class="fas fa-location-dot"></i> Live Tracking
+            </a>
+            <a href="#timetable" class="hover:text-blue-600 flex items-center gap-1.5 transition">
+                <i class="fas fa-clock"></i> Timetable / वेळापत्रक
+            </a>
+            <a href="#roles" class="hover:text-blue-600 flex items-center gap-1.5 transition">
+                <i class="fas fa-users-gear"></i> Portal Roles
+            </a>
+            <a href="#depots" class="hover:text-blue-600 flex items-center gap-1.5 transition">
+                <i class="fas fa-building-flag"></i> Depots
+            </a>
+        </nav>
+
+        <!-- Right: Network Status, Live Clock & AI Tag -->
+        <div class="flex items-center gap-2 sm:gap-4">
+            <div class="text-right hidden sm:block">
+                <div id="currentTime" class="font-mono font-bold text-xs sm:text-sm text-slate-800">12:30:00 PM</div>
+                <div class="text-[10px] font-semibold text-emerald-600 flex items-center justify-end gap-1">
+                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> GPS Active
+                </div>
+            </div>
+
+            <!-- AI Badge Indicator -->
+            
+
+            <!-- Mobile Quick Clock -->
+            <span id="currentTimeMobile" class="sm:hidden font-mono font-bold text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded-lg">
+                12:30
+            </span>
+        </div>
+
+    </div>
+</header>
+
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6">
+
+    <!-- HERO BANNER CAROUSEL & MARATHI TAGLINE -->
+    <section class="space-y-3">
+        
+        <!-- Handwriting Marathi Slogan Banner -->
+        <div class="bg-gradient-to-r from-red-50 via-blue-50 to-sky-50 border border-blue-100 rounded-2xl p-3 sm:p-4 text-center relative overflow-hidden shadow-2xs">
+            <p class="font-handwriting text-blue-900 text-lg sm:text-2xl md:text-3xl font-bold leading-snug">
+                "महाराष्ट्राची जीवन वाहिनी - एसटी महामंडळ"
+            </p>
+            <p class="text-xs sm:text-sm font-semibold text-slate-600 mt-0.5">
+                Connecting Villages, Cities & Districts Across Maharashtra
+            </p>
+        </div>
+
+        <!-- 5-SLIDE FULL RESPONSIVE CAROUSEL -->
+        <div class="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-900 border border-slate-200 shadow-md group">
+            
+            <div id="welcomeCarouselTrack" class="carousel-track">
+                
+                <!-- Slide 1: LalPari Standard Express Bus -->
+                <div class="carousel-slide relative h-48 sm:h-64 md:h-80 lg:h-[380px]">
+                    <img 
+                        src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1600&q=80" 
+                        alt="MSRTC LalPari Red Express" 
+                        class="w-full h-full object-cover"
+                        onerror="this.onerror=null; this.src='https://placehold.co/1200x600/dc2626/ffffff?text=MSRTC+LalPari+Red+Express';"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-4 sm:p-8 flex flex-col justify-end text-white">
+                        <span class="bg-red-600 text-white text-[10px] sm:text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider w-max mb-1.5 flex items-center gap-1.5">
+                            <span class="w-2 h-2 bg-white rounded-full live-pulse"></span> लालपरी एक्सप्रेस / LalPari Express
+                        </span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight">
+                            MSRTC Standard Red Bus - Life Line of Maharashtra
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-200 font-medium line-clamp-2 mt-1 max-w-2xl">
+                            Real-time GPS tracking across all 250+ state depots with accurate live arrival estimates.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Shivneri AC Volvo Bus -->
+                <div class="carousel-slide relative h-48 sm:h-64 md:h-80 lg:h-[380px]">
+                    <img 
+                        src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1600&q=80" 
+                        alt="Shivneri AC Bus" 
+                        class="w-full h-full object-cover"
+                        onerror="this.onerror=null; this.src='https://placehold.co/1200x600/2563eb/ffffff?text=Shivneri+AC+Volvo';"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-4 sm:p-8 flex flex-col justify-end text-white">
+                        <span class="bg-blue-600 text-white text-[10px] sm:text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider w-max mb-1.5">
+                            शिवनेरी एसी / Shivneri AC Volvo
+                        </span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight">
+                            Luxury Intercity Expressway Travel
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-200 font-medium line-clamp-2 mt-1 max-w-2xl">
+                            High-speed premium AC services connecting Mumbai, Pune, Sambhajinagar, Nashik, and Nagpur.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Slide 3: E-Shivai Eco Electric Bus -->
+                <div class="carousel-slide relative h-48 sm:h-64 md:h-80 lg:h-[380px]">
+                    <img 
+                        src="https://images.unsplash.com/photo-1562618088-3ef27c32b5be?auto=format&fit=crop&w=1600&q=80" 
+                        alt="E-Shivai Electric Bus" 
+                        class="w-full h-full object-cover"
+                        onerror="this.onerror=null; this.src='https://placehold.co/1200x600/059669/ffffff?text=E-Shivai+Electric';"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-4 sm:p-8 flex flex-col justify-end text-white">
+                        <span class="bg-emerald-600 text-white text-[10px] sm:text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider w-max mb-1.5">
+                            ई-शिवाई / E-Shivai Electric
+                        </span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight">
+                            Zero-Emission Clean Green Electric Fleet
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-200 font-medium line-clamp-2 mt-1 max-w-2xl">
+                            Silent, comfortable, and environmentally friendly green transport for modern Maharashtra.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Night Super Sleeper Express -->
+                <div class="carousel-slide relative h-48 sm:h-64 md:h-80 lg:h-[380px]">
+                    <img 
+                        src="https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=1600&q=80" 
+                        alt="Night Super Express Sleeper" 
+                        class="w-full h-full object-cover"
+                        onerror="this.onerror=null; this.src='https://placehold.co/1200x600/7c3aed/ffffff?text=Night+Super+Express';"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-4 sm:p-8 flex flex-col justify-end text-white">
+                        <span class="bg-purple-600 text-white text-[10px] sm:text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider w-max mb-1.5">
+                            रात्र राणी / Night Super Express
+                        </span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight">
+                            Overnight Sleeper & Semi-Sleeper Services
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-200 font-medium line-clamp-2 mt-1 max-w-2xl">
+                            Safe and comfortable overnight long-distance travel connecting all major districts.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Asiad Neem-Aaram Bus -->
+                <div class="carousel-slide relative h-48 sm:h-64 md:h-80 lg:h-[380px]">
+                    <img 
+                        src="https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=1600&q=80" 
+                        alt="Asiad Semi Luxury Bus" 
+                        class="w-full h-full object-cover"
+                        onerror="this.onerror=null; this.src='https://placehold.co/1200x600/d97706/ffffff?text=Asiad+Neem+Aaram';"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-4 sm:p-8 flex flex-col justify-end text-white">
+                        <span class="bg-amber-600 text-white text-[10px] sm:text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider w-max mb-1.5">
+                            एशियाड / Asiad Semi Luxury
+                        </span>
+                        <h2 class="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight">
+                            Asiad Neem-Aaram District Connector
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-200 font-medium line-clamp-2 mt-1 max-w-2xl">
+                            High-frequency semi-luxury non-AC express buses running between adjacent districts.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Left Navigation Button -->
+            <button 
+                onclick="prevWelcomeSlide()" 
+                aria-label="Previous Slide"
+                class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-slate-950/60 hover:bg-slate-900 text-white flex items-center justify-center backdrop-blur-sm border border-white/20 shadow-lg transition active:scale-90 z-10"
+            >
+                <i class="fas fa-chevron-left text-xs sm:text-sm"></i>
+            </button>
+
+            <!-- Right Navigation Button -->
+            <button 
+                onclick="nextWelcomeSlide()" 
+                aria-label="Next Slide"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-slate-950/60 hover:bg-slate-900 text-white flex items-center justify-center backdrop-blur-sm border border-white/20 shadow-lg transition active:scale-90 z-10"
+            >
+                <i class="fas fa-chevron-right text-xs sm:text-sm"></i>
+            </button>
+
+            <!-- Slide Indicator Dots -->
+            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-slate-900/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 z-10">
+                <button onclick="goToWelcomeSlide(0)" class="welcome-dot w-6 h-2 rounded-full bg-red-500 transition-all"></button>
+                <button onclick="goToWelcomeSlide(1)" class="welcome-dot w-2 h-2 rounded-full bg-white/50 transition-all"></button>
+                <button onclick="goToWelcomeSlide(2)" class="welcome-dot w-2 h-2 rounded-full bg-white/50 transition-all"></button>
+                <button onclick="goToWelcomeSlide(3)" class="welcome-dot w-2 h-2 rounded-full bg-white/50 transition-all"></button>
+                <button onclick="goToWelcomeSlide(4)" class="welcome-dot w-2 h-2 rounded-full bg-white/50 transition-all"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- WELCOME & ROLE SELECTION TITLE -->
+    <section class="text-center sm:text-left pt-2 pb-1 border-b border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            Welcome to MSRTC Portal / एसटी महामंडळ पोर्टल
+        </h2>
+        <p class="text-xs sm:text-sm font-semibold text-slate-500 mt-0.5">
+            Select your role to access personalized portal tools and live tracking
+        </p>
+    </section>
+
+    <!-- ROLE SELECTION CARDS CONTAINER (Grid adapts to Desktop & Mobile) -->
+    <section id="roles" class="space-y-6">
+
+        <!-- 1. PRIMARY PASSENGER CARD (Full width hero banner) -->
+        <div onclick="window.location.href='../frontend/auth/passenger-login.html'" 
+             class="role-card bg-gradient-to-r from-blue-50 via-sky-50 to-blue-100 border-2 border-blue-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm hover:border-blue-400 transition">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-start sm:items-center gap-4">
+                    <!-- Passenger Avatar Icon -->
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md relative">
+                        <i class="fas fa-user-tie text-2xl sm:text-3xl"></i>
+                        <span class="absolute -bottom-1 -right-1 w-6 h-6 bg-red-600 text-white rounded-full flex items-center justify-center text-[10px] border-2 border-white">
+                            <i class="fas fa-bus"></i>
+                        </span>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-lg sm:text-2xl font-black text-slate-900 leading-tight">
+                                Passenger / प्रवासी
+                            </h3>
+                            <span class="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                Primary Portal
+                            </span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed mt-1 max-w-xl">
+                            Search live bus locations, view arrival timings, check seat availability, timetable schedules and student concession pass status.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Call to Action Button -->
+                <div class="self-end md:self-center shrink-0">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs sm:text-sm px-5 py-3 rounded-xl shadow-md transition flex items-center gap-2">
+                        <span>Access Passenger Portal</span>
+                        <i class="fas fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. STAFF SECTION -->
+        <div class="space-y-3">
+            <div class="flex items-center gap-2 text-slate-800">
+                <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="text-base sm:text-lg font-black tracking-tight">
+                    Staff Portal / कर्मचारी दालन
+                </h3>
+            </div>
+
+            <!-- Responsive 3-Column Grid on Desktop, 1 Column on Mobile -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                
+                <!-- Driver Card -->
+                <div onclick="window.location.href='../frontend/auth/staff-login.html'"
+                     class="role-card bg-gradient-to-br from-blue-50/80 to-sky-50 border border-blue-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0 border border-blue-200">
+                            <i class="fas fa-id-badge"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-base font-extrabold text-slate-900 leading-tight">Driver / चालक</h4>
+                            <p class="text-xs text-slate-500 font-medium mt-0.5">
+                                Duty roster, trip logs & telematics
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center justify-between text-xs font-extrabold text-blue-600 pt-2 border-t border-blue-100">
+                        <span>Login as Driver</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <!-- Conductor Card -->
+                <div onclick="window.location.href='../frontend/auth/staff-login.html'" 
+                     class="role-card bg-gradient-to-br from-red-50/80 to-rose-50 border border-red-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-12 h-12 rounded-xl bg-red-100 text-red-600 flex items-center justify-center text-xl shrink-0 border border-red-200">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-base font-extrabold text-slate-900 leading-tight">Conductor / वाहक</h4>
+                            <p class="text-xs text-slate-500 font-medium mt-0.5">
+                                E-Ticketing, route collection & seats
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center justify-between text-xs font-extrabold text-red-600 pt-2 border-t border-red-100">
+                        <span>Login as Conductor</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <!-- Pass-Checker Card -->
+                <div onclick="window.location.href='../frontend/auth/staff-login.html'" 
+                     class="role-card bg-gradient-to-br from-purple-50/80 to-indigo-50 border border-purple-200 rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
+                    <div class="flex items-start gap-3.5">
+                        <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl shrink-0 border border-purple-200">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-base font-extrabold text-slate-900 leading-tight">Pass-Checker / तपासणीस</h4>
+                            <p class="text-xs text-slate-500 font-medium mt-0.5">
+                                QR Pass scanning & ticket verification
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center justify-between text-xs font-extrabold text-purple-600 pt-2 border-t border-purple-100">
+                        <span>Pass Inspection</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 3. ADMIN PANEL SECTION -->
+        <div class="space-y-3">
+            <div class="flex items-center gap-2 text-slate-800">
+                <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-bold">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <h3 class="text-base sm:text-lg font-black tracking-tight">
+                    Admin Panel / प्रशासन विभाग
+                </h3>
+            </div>
+
+            <!-- Responsive 2-Column Grid on Desktop -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+
+                <!-- My Admin Card -->
+                <div onclick="window.location.href='../frontend/auth/myadmin-login.html'" 
+                     class="role-card bg-gradient-to-br from-emerald-50/80 to-teal-50 border border-emerald-200 rounded-2xl p-4 sm:p-5 flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0 border border-emerald-200">
+                            <i class="fas fa-user-gear"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-base font-extrabold text-slate-900 leading-tight">My Admin / डेपो मॅनेजर</h4>
+                            <p class="text-xs text-slate-500 font-medium mt-0.5">
+                                System management & depot operations
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-emerald-600 text-sm font-bold pl-2">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <!-- MSRTC HAD Card -->
+                <div onclick="window.location.href='../frontend/auth/myadmin-login.html'" 
+                     class="role-card bg-gradient-to-br from-amber-50/80 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 flex items-center justify-between">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0 border border-amber-200">
+                            <i class="fas fa-building-columns"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-base font-extrabold text-slate-900 leading-tight">For MSRTC HAD / वरिष्ठ अधिकारी</h4>
+                            <p class="text-xs text-slate-500 font-medium mt-0.5">
+                                State authority analytics & fleet control
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-amber-600 text-sm font-bold pl-2">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <!-- REAL-TIME FLEET STATISTICS BOARD -->
+    <section class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xs">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
+            <div>
+                <h3 class="text-base sm:text-lg font-black text-slate-900">
+                    MSRTC Live Operations Overview / थेट कार्यप्रणाली
+                </h3>
+                <p class="text-xs text-slate-500 font-semibold">
+                    Real-time network telematics across Maharashtra
+                </p>
+            </div>
+            <span class="text-xs font-extrabold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full live-pulse"></span> Systems Operational
+            </span>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-center">
+            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                <div class="text-xl sm:text-2xl font-black text-blue-600">16,000+</div>
+                <div class="text-[11px] sm:text-xs font-bold text-slate-600 mt-0.5">Active Fleet Buses</div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                <div class="text-xl sm:text-2xl font-black text-red-600">250+</div>
+                <div class="text-[11px] sm:text-xs font-bold text-slate-600 mt-0.5">Depots Connected</div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                <div class="text-xl sm:text-2xl font-black text-emerald-600">67 Lakhs+</div>
+                <div class="text-[11px] sm:text-xs font-bold text-slate-600 mt-0.5">Daily Passengers</div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                <div class="text-xl sm:text-2xl font-black text-purple-600">98.4%</div>
+                <div class="text-[11px] sm:text-xs font-bold text-slate-600 mt-0.5">GPS Sync Rate</div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- FOOTER SECTION (Full fluid responsive) -->
+<footer class="bg-white border-t border-slate-200 mt-8 py-6 px-4 sm:px-6 lg:px-8 pb-safe text-center">
+    <div class="max-w-7xl mx-auto space-y-4">
+        
+        <!-- Divider Accent -->
+        <div class="flex items-center justify-center gap-3 text-slate-400 text-xs font-bold">
+            <div class="h-px bg-slate-200 flex-1 max-w-xs"></div>
+            <i class="fas fa-bus text-red-600"></i>
+            <span>लालपरी लाईव्ह सेवा</span>
+            <div class="h-px bg-slate-200 flex-1 max-w-xs"></div>
+        </div>
+
+        <div>
+            <p class="text-xs sm:text-sm font-extrabold text-slate-800">
+                Maharashtra State Road Transport Corporation (MSRTC)
+            </p>
+            <p class="text-xs font-semibold text-slate-500 mt-0.5">
+                सेवा • सुरक्षा • समृद्धी | Service • Safety • Progress
+            </p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 text-xs font-bold text-slate-500">
+            <a href="#" class="hover:text-red-600">Helpline: 1800-221-250</a>
+            <span>•</span>
+            <a href="#" class="hover:text-red-600">Depot Network</a>
+            <span>•</span>
+            <a href="#" class="hover:text-red-600">Student Concession Portal</a>
+            <span>•</span>
+            <a href="#" class="hover:text-red-600">Privacy Policy</a>
+        </div>
+
+        <!-- Signature MSRTC Red-Blue Bottom Strip -->
+        <div class="h-1.5 w-48 mx-auto rounded-full bg-gradient-to-r from-red-600 via-blue-600 to-red-600"></div>
+    </div>
+</footer>
+
+<script>
+// --- Clock Logic (Supports both desktop and mobile headers) ---
+function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    
+    const timeFull = `${hours}:${minutes}:${seconds} ${ampm}`;
+    const timeShort = `${hours}:${minutes} ${ampm}`;
+    
+    const clockDesktop = document.getElementById('currentTime');
+    const clockMobile = document.getElementById('currentTimeMobile');
+    
+    if (clockDesktop) clockDesktop.textContent = timeFull;
+    if (clockMobile) clockMobile.textContent = timeShort;
+}
+
+setInterval(updateClock,1000);
+
+// --- Carousel Auto & Manual Slider with Touch Support ---
+let currentSlide = 0;
+const totalSlides = 5;
+const track = document.getElementById('welcomeCarouselTrack');
+const dots = document.querySelectorAll('.welcome-dot');
+let carouselInterval;
+
+function updateWelcomeCarousel() {
+    if (!track) return;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    
+    dots.forEach((dot, idx) => {
+        if (idx === currentSlide) {
+            dot.classList.add('w-6', 'bg-red-500');
+            dot.classList.remove('w-2', 'bg-white/50');
+        } else {
+            dot.classList.remove('w-6', 'bg-red-500');
+            dot.classList.add('w-2', 'bg-white/50');
         }
-    </script>
+    });
+}
+
+function nextWelcomeSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateWelcomeCarousel();
+    resetCarouselTimer();
+}
+
+function prevWelcomeSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateWelcomeCarousel();
+    resetCarouselTimer();
+}
+
+function goToWelcomeSlide(index) {
+    currentSlide = index;
+    updateWelcomeCarousel();
+    resetCarouselTimer();
+}
+
+function startCarouselTimer() {
+    carouselInterval = setInterval(() => {
+        nextWelcomeSlide();
+    }, 4500);
+}
+
+function resetCarouselTimer() {
+    clearInterval(carouselInterval);
+    startCarouselTimer();
+}
+
+// --- Touch Swipe Gestures for Carousel on iPhone & Mobile ---
+let startX = 0;
+let endX = 0;
+
+if (track) {
+    track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        handleSwipe();
+    }, { passive: true });
+}
+
+function handleSwipe() {
+    const diffX = startX - endX;
+    if (Math.abs(diffX) > 40) {
+        if (diffX > 0) {
+            nextWelcomeSlide();
+        } else {
+            prevWelcomeSlide();
+        }
+    }
+}
+
+// --- Initialization ---
+document.addEventListener('DOMContentLoaded', () => {
+    updateClock();
+    setInterval(updateClock, 1000);
+    startCarouselTimer();
+});
+</script>
 
 </body>
 </html>

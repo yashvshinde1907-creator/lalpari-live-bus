@@ -3,7 +3,7 @@
  */
 
 // 🎯 १. जेव्हा जेव्हा कोड किंवा कंटेंट बदलाल, तेव्हा व्हर्जन बदला (v1 -> v2)
-const CACHE_NAME = 'universal-pwa-cache-v2';
+const CACHE_NAME = 'universal-pwa-cache-v00001';
 
 // Paths relative to SW location
 const ASSETS_TO_CACHE = [

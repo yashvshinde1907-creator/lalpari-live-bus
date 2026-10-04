@@ -1,139 +1,85 @@
-
-<!-----------
-
-<style>
-
-        /* Optional: Add any CSS for animations or interactions here..... */
-
-    </style>
-
-<div
-
-       Optional: Add any TEXT & IMG for animations or interactions here..... 
-   
-    </div>
-
-<script>
-
-    // Optional: Add any JavaScript for animations or interactions here....     
-
-</script>                                                                 --------------->
-
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LALPARI-LIVE-Loading</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #121212;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-family: 'Inter', -apple-system, sans-serif;
-            overflow: hidden;
-        }
-        .logo-container {
-            position: relative;
-            margin-bottom: 32px;
-        }
-        .logo-ring {
-            width: 100px;
-            height: 100px;
-            border-radius: 28px;
-            background: linear-gradient(135deg, #3DDC84, #00C853);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 44px;
-            animation: pulse 2s ease-in-out infinite;
-            box-shadow: 0 0 50px rgba(61, 220, 132, 0.3);
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        .app-name {
-            font-size: 24px;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-        .tagline {
-            font-size: 13px;
-            color: #aaaaaa;
-            margin-bottom: 32px;
-        }
-        .loader-bar {
-            width: 160px;
-            height: 3px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        .loader-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #3DDC84, #00C853);
-            border-radius: 2px;
-            animation: fillBar 2.2s ease-out forwards;
-        }
-        @keyframes fillBar {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-        .loading-text {
-            margin-top: 16px;
-            font-size: 11px;
-            color: #666666;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
+  <meta name="theme-color" content="#0b1c3d">
+  <meta name="description" content="LalPari.Live - Official MSRTC Bus Tracking Splash Screen">
+  <title>LalPari.Live - Splash Screen</title>
+  
+  <link rel="apple-touch-icon" sizes="152x152" href="../../assets/images/splash-background.jpeg">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #0b1c3d;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .splash-shell {
+      height: 100vh;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-image: url('../../assets/images/splash-background.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 0.5s ease-out;
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        background: #040914;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .splash-shell {
+        width: 100%;
+        max-width: 520px;
+        height: 100vh;
+        max-height: 980px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="logo-container">
-        <div class="logo-ring">🤖</div>
-    </div>
-    <div class="app-name">Universal PWA</div>
-    <div class="tagline">Android Optimized</div>
-    <div class="loader-bar">
-        <div class="loader-fill"></div>
-    </div>
-    <div class="loading-text">Optimizing for Android...</div>
 
-<!-------------
+  <div class="splash-shell" id="splashScreen">
+    <!-- स्प्लॅश स्क्रीन कंटेंट (इमेज बॅकग्राउंड म्हणून सेट केली आहे) -->
+  </div>
 
-////////////////////////////////////////////////////////////////////////////////
-    
-<style>
+  <script>
+    const LOADING_DURATION = 4000; // ४ सेकंद स्प्लॅश स्क्रीन दाखवेल
 
-        /* Optional: Add any CSS for animations or interactions here..... */
+    // ३.५ सेकंदांनंतर स्प्लॅश स्क्रीन हळूहळू हायड (Fade Out) होईल
+    setTimeout(() => {
+      const splash = document.getElementById('splashScreen');
+      if (splash) {
+        splash.classList.add('fade-out');
+      }
+    }, LOADING_DURATION - 500);
 
-    </style>
-
-................................................................................
-
-<div
-
-        Optional: Add any TEXT & IMG for animations or interactions here..... 
-   
-    </div>
-
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-
-<script>
-
-    // Optional: Add any JavaScript for animations or interactions here....   
-
-</script>>
-
-\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\        ------------->
+    // ४ सेकंदांनंतर होम/मुख्य पानावर (index.html) घेऊन जाईल
+    setTimeout(() => {
+      window.location.href = '../index.html'; // तुमच्या मुख्य पेजचा अचूक पाथ इथे टाका
+    }, LOADING_DURATION);
+  </script>
 
 </body>
 </html>
-
